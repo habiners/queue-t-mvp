@@ -262,7 +262,8 @@
                           ON EMPLOYEE.workerID = WORKER.workerID;")->fetchAll();
 
                     foreach ($allWorkers as $worker) {
-                      $schedules = $pdo->query("SELECT scheduleID, timeStart, timeEnd, isOpen, WORKER.workerID, concat(WORKER.firstName, ' ', WORKER.lastName) AS 'workerName' FROM SCHEDULE 
+                      $schedules = $pdo->query("SELECT scheduleID, CONCAT(time_format(timeStart, '%h:%i') , ' ', IF(TIME(timeStart) >= '12:00:00', 'PM', 'AM')) as timeStart, 
+                      CONCAT(time_format(timeEnd, '%h:%i') , ' ', IF(TIME(timeEnd) >= '12:00:00', 'PM', 'AM')) as timeEnd, isOpen, WORKER.workerID, concat(WORKER.firstName, ' ', WORKER.lastName) AS 'workerName' FROM SCHEDULE 
                         INNER JOIN WORKER
                         ON SCHEDULE.workerID = WORKER.workerID AND WORKER.workerID = " . $worker["workerID"] .
                         " INNER JOIN EMPLOYEE

@@ -309,14 +309,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     foreach ($workers as $column) {
                       if (!empty($column)) {
                         $row = 0;
-                        $statement = $pdo->query("SELECT scheduleID, timeStart, timeEnd, isOpen, WORKER.workerID, concat(WORKER.firstName, ' ', WORKER.lastName) AS 'workerName' FROM SCHEDULE 
-                        INNER JOIN WORKER
-                        ON SCHEDULE.workerID = WORKER.workerID AND WORKER.workerID = " . $column["workerID"] .
-                          " INNER JOIN EMPLOYEE
-                          ON WORKER.workerID = EMPLOYEE.workerID
-                            INNER JOIN SERVICES_OFFERED
-                            ON SERVICES_OFFERED.businessID = $businessID
-                              GROUP BY timeStart ORDER BY timeStart ASC;");
+                        $statement = $pdo->query("SELECT scheduleID, CONCAT(time_format(timeStart, '%h:%i') , ' ', IF(TIME(timeStart) >= '12:00:00', 'PM', 'AM')) as timeStart, 
+                        CONCAT(time_format(timeEnd, '%h:%i') , ' ', IF(TIME(timeEnd) >= '12:00:00', 'PM', 'AM')) as timeEnd, isOpen, WORKER.workerID, concat(WORKER.firstName, ' ', WORKER.lastName) AS 'workerName' FROM SCHEDULE 
+                          INNER JOIN WORKER
+                          ON SCHEDULE.workerID = WORKER.workerID AND WORKER.workerID = " . $column["workerID"] .
+                            " INNER JOIN EMPLOYEE
+                            ON WORKER.workerID = EMPLOYEE.workerID
+                              INNER JOIN SERVICES_OFFERED
+                              ON SERVICES_OFFERED.businessID = $businessID
+                                GROUP BY timeStart ORDER BY timeStart ASC;");
 
                         while ($row < $serviceRow) {
                           $row++;

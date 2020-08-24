@@ -31,6 +31,7 @@ CREATE TABLE `appointment` (
   `isActive` tinyint(1) DEFAULT NULL,
   `createdAt` timestamp NOT NULL,
   `updatedAt` timestamp NOT NULL,
+  `isDone` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`appointmentID`),
   KEY `userID` (`userID`),
   KEY `scheduleID` (`scheduleID`),
@@ -47,7 +48,7 @@ CREATE TABLE `appointment` (
 
 LOCK TABLES `appointment` WRITE;
 /*!40000 ALTER TABLE `appointment` DISABLE KEYS */;
-INSERT INTO `appointment` VALUES (1,3,1,NULL,0,1,'2020-08-24 07:39:27','2020-08-24 07:39:27'),(2,5,4,NULL,0,1,'2020-08-24 08:36:09','2020-08-24 08:36:09');
+INSERT INTO `appointment` VALUES (1,3,1,2,0,1,'2020-08-24 07:39:27','2020-08-24 07:39:27',0),(2,5,4,2,0,1,'2020-08-24 08:36:09','2020-08-24 08:36:09',0);
 /*!40000 ALTER TABLE `appointment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -382,4 +383,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-24 20:01:47
+-- Dump completed on 2020-08-24 20:51:38

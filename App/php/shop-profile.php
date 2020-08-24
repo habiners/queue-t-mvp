@@ -61,6 +61,7 @@
     session_start();
     $userID = $_SESSION["userID"];
 
+    //Refresh on POST
     if (isset($_POST['Submit']) && ($_POST['Submit'] == "scheduleAppointment")) //Refreshes page somehow
       echo "<meta http-equiv='refresh' content='0'>";
   }
@@ -326,7 +327,7 @@
                       <label class="mr-sm-2" for="service">Service</label>
                       </div>
                       <div class="row justify-content-center">
-                      <select class="custom-select-sm mr-sm-2" id="service">';
+                      <select class="custom-select-sm mr-sm-2" id="service" name="serviceID">';
                       $statement = $pdo->query("SELECT CONCAT(WORKER.firstName, ' ', WORKER.lastName) AS \"workerName\", EMPLOYEE.employeeID, serviceName, ADDTIME(serviceDuration, cleaningDuration) AS totalDuration, SERVICE.serviceID FROM WORKER
                               INNER JOIN EMPLOYEE
                               ON EMPLOYEE.workerID = WORKER.workerID AND WORKER.workerID = " . $worker["workerID"] . " 
@@ -336,9 +337,10 @@
                                   ON SERVICES_OFFERED.serviceID = SERVICE.serviceID
                                     ORDER BY totalDuration DESC;");
                       $empServices = $statement->fetchAll();
+                      $tmpService = $empServices['serviceName'];
                       foreach ($empServices as $row) {
                         echo '<option value="' . $row['serviceID'];
-                        if ($businessCategory == $row['serviceName'])
+                        if ($tmpService == $row['serviceName'])
                           echo "selected";
                         echo '">' . $row['serviceName'] . '</option>';
                       }
@@ -348,10 +350,12 @@
                     }
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       $scheduleID = $_POST["appointment"];
+                      $serviceID = $_POST["serviceID"];
                       $isTaken = $pdo->query("SELECT isActive from APPOINTMENT WHERE scheduleID = $scheduleID;")->fetch();
+                      // echo $isTaken . "HI";
                       if (!$isTaken) {
                         try {
-                          $pdo->exec("INSERT INTO APPOINTMENT (userID, scheduleID, isServing, isActive, createdAt, updatedAt) VALUES ($userID, $scheduleID, 0, 1, now(), now());");
+                          $pdo->exec("INSERT INTO APPOINTMENT (userID, scheduleID, serviceID, isServing, isDone, isActive, createdAt, updatedAt) VALUES ($userID, $scheduleID, $serviceID, 0, 0, 1, now(), now());");
                           $pdo->exec("UPDATE SCHEDULE SET isOpen = 0 WHERE scheduleID = $scheduleID;");
                         } catch (Exception $e) {
                           echo "Insertion error! $e";

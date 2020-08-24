@@ -13,6 +13,7 @@ SELECT * FROM BUSINESS_CATEGORY;
 SELECT * FROM SERVICE_CATEGORY;
 SELECT * FROM SERVICE;
 SELECT * FROM SCHEDULE;
+SELECT * FROM APPOINTMENT;
 
 DESCRIBE USER;
 DESCRIBE BUSINESS;
@@ -184,6 +185,7 @@ CREATE TABLE SCHEDULE(
 	updatedAt TIMESTAMP NOT NULL
 );
 
+
 #11. Appointment=====================================================================================================================================
 CREATE TABLE APPOINTMENT(
 	appointmentID INT PRIMARY KEY AUTO_INCREMENT,
@@ -201,7 +203,8 @@ CREATE TABLE APPOINTMENT(
 		ON DELETE SET NULL 
         ON UPDATE CASCADE,
     
-	isServing BOOLEAN, #[note: 'If false, either waiting or done'],
+	isServing BOOLEAN, #[note: 'If true, currently being served'],
+    isDone BOOLEAN, #[note: 'If false, waiting']
 	isActive BOOLEAN, #[note: 'If false it is cancelled'],
 	createdAt TIMESTAMP NOT NULL,
 	updatedAt TIMESTAMP NOT NULL

@@ -648,13 +648,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
   if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["Submit"] == "addSchedule") {
     // echo $_POST["scheduleDate"] . " " . $_POST["scheduleTime"] . " " . $_POST["scheduleWorker"];
     $scheduleDate = inpClean($_POST["scheduleDate"]);
-    $scheduleTimeStart = $scheduleDate . ' ' . $_POST["scheduleTime"] . ":00";
+    $scheduleTimeStart = $_POST["scheduleTime"] . ":00";
     $scheduleWorker = inpClean($_POST["scheduleWorker"]);
 
     ECHO $scheduleTimeStart . "ahhh";
     // echo "\n" . $scheduleTimeStart . " OOF";
     $scheduleTimeEnd = $pdo->query("SELECT concat(WORKER.firstName, ' ', WORKER.lastName) AS \"workerName\", 
-          CONCAT(curdate(), ' ', ADDTIME(TIME('$scheduleTimeStart'), MAX(ADDTIME(serviceDuration, cleaningDuration)))) as \"endTime\"
+          ADDTIME(TIME('$scheduleTimeStart'), MAX(ADDTIME(serviceDuration, cleaningDuration))) as \"endTime\"
           FROM WORKER
             INNER JOIN EMPLOYEE
             ON EMPLOYEE.workerID = WORKER.workerID AND WORKER.workerID = $scheduleWorker
@@ -665,7 +665,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   GROUP BY workerName;")->fetch()["endTime"];
     // echo "HIII : " . $scheduleTimeEnd;
     try {
-      $pdo->exec("INSERT INTO SCHEDULE (workerID, timeStart, timeEnd, isOpen, createdAt, updatedAt) VALUES ($scheduleWorker, '$scheduleTimeStart', '$scheduleTimeEnd', 1, now(), now());");
+      $pdo->exec("INSERT INTO SCHEDULE (workerID, date, timeStart, timeEnd, isOpen, createdAt, updatedAt) VALUES ($scheduleWorker, '$scheduleDate', '$scheduleTimeStart', '$scheduleTimeEnd', 1, now(), now());");
     } catch (Exception $e) {
       echo "Could not insert! Error: $e";
     }

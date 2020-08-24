@@ -170,15 +170,16 @@ CREATE TABLE EMPLOYEE(
 );
 
 select * from schedule;
-ALTER TABLE SCHEDULE CHANGE timeEnd timeEnd TIMESTAMP;
+UPDATE SCHEDULE SET date = curdate() where scheduleID = 9;
 #10. Schedule=====================================================================================================================================
 CREATE TABLE SCHEDULE(
 	scheduleID INT PRIMARY KEY AUTO_INCREMENT,
     workerID INT,
 	FOREIGN KEY (workerID) REFERENCES WORKER (workerID)
 		ON DELETE SET NULL ON UPDATE CASCADE,
-	timeStart TIMESTAMP,
-	timeEnd TIMESTAMP,
+	date DATE,
+	timeStart TIME,
+	timeEnd TIME,
 
 	isOpen BOOL, # [note: 'If true, open or free schedule']
 	createdAt TIMESTAMP NOT NULL,

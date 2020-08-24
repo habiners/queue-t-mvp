@@ -212,8 +212,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <tr>
                     <?php
                     //Get all Employees of a Business
-                    if (isset($_POST['Submit']) && ($_POST['Submit'] == "addEmployee" || $_POST['Submit'] == "addSchedule")) //Refreshes page somehow
-                      echo "<meta http-equiv='refresh' content='0'>";
+                    // if (isset($_POST['Submit']) && ($_POST['Submit'] == "addEmployee" || $_POST['Submit'] == "addSchedule")) //Refreshes page somehow
+                    //   echo "<meta http-equiv='refresh' content='0'>";
 
                     $statement = $pdo->query("SELECT DISTINCT concat(WORKER.firstName, ' ', WORKER.lastName) AS \"workerName\", WORKER.workerID FROM BUSINESS
                       INNER JOIN SERVICES_OFFERED
@@ -309,7 +309,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     foreach ($workers as $column) {
                       if (!empty($column)) {
                         $row = 0;
-                        $statement = $pdo->query("SELECT scheduleID, CONCAT(time_format(timeStart, '%h:%i') , ' ', IF(TIME(timeStart) >= '12:00:00', 'PM', 'AM')) as timeStart, 
+                        $statement = $pdo->query("SELECT scheduleID, CONCAT(time_format(timeStart, '%h:%i') , ' ', IF(TIME(timeStart) >= '12:00:00', 'PM', 'AM')) as timeStartFormatted, 
                         CONCAT(time_format(timeEnd, '%h:%i') , ' ', IF(TIME(timeEnd) >= '12:00:00', 'PM', 'AM')) as timeEnd, isOpen, WORKER.workerID, concat(WORKER.firstName, ' ', WORKER.lastName) AS 'workerName' FROM SCHEDULE 
                           INNER JOIN WORKER
                           ON SCHEDULE.workerID = WORKER.workerID AND WORKER.workerID = " . $column["workerID"] .
@@ -337,7 +337,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <div class="info-box' . ($schedule["isOpen"] ? '' : ' bg-done') . ' hover-effect">
                             <span class="info-box-icon font-weight-bold hover-effect"></span>
                             <div class="info-box-content hover-effect">
-                              <span class="info-box-text font-weight-bold"> ' . $schedule["timeStart"] . ' to ' . $schedule["timeEnd"] . '</span>
+                              <span class="info-box-text font-weight-bold"> ' . $schedule["timeStartFormatted"] . ' to ' . $schedule["timeEnd"] . '</span>
                               </span>
                               <h3 class="uppercase">
                               ' . ($schedule["isOpen"] ? 'Vacant' : $personAppoint["name"]) . '
@@ -648,17 +648,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
   if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["Submit"] == "addSchedule") {
     // echo $_POST["scheduleDate"] . " " . $_POST["scheduleTime"] . " " . $_POST["scheduleWorker"];
     $scheduleDate = inpClean($_POST["scheduleDate"]);
-    $scheduleTimeStart = $_POST["scheduleTime"] . ":00";
+    $scheduleTimeStart = $scheduleDate . ' ' . $_POST["scheduleTime"] . ":00";
     $scheduleWorker = inpClean($_POST["scheduleWorker"]);
 
+    ECHO $scheduleTimeStart . "ahhh";
     // echo "\n" . $scheduleTimeStart . " OOF";
     $scheduleTimeEnd = $pdo->query("SELECT concat(WORKER.firstName, ' ', WORKER.lastName) AS \"workerName\", 
-          addtime('$scheduleTimeStart', max(addtime(serviceDuration, cleaningDuration))) as \"endTime\"
+          CONCAT(curdate(), ' ', ADDTIME(TIME('$scheduleTimeStart'), MAX(ADDTIME(serviceDuration, cleaningDuration)))) as \"endTime\"
           FROM WORKER
             INNER JOIN EMPLOYEE
-            ON EMPLOYEE.workerID = WORKER.workerID AND WORKER.workerID = $scheduleWorker #just change worker ID
+            ON EMPLOYEE.workerID = WORKER.workerID AND WORKER.workerID = $scheduleWorker
               INNER JOIN SERVICES_OFFERED
-              ON EMPLOYEE.serviceOfferedID = SERVICES_OFFERED.serviceOfferedID AND SERVICES_OFFERED.businessID = $businessID #as well as businessID
+              ON EMPLOYEE.serviceOfferedID = SERVICES_OFFERED.serviceOfferedID AND SERVICES_OFFERED.businessID = $businessID
                 INNER JOIN SERVICE
                 ON SERVICES_OFFERED.serviceID = SERVICE.serviceID
                   GROUP BY workerName;")->fetch()["endTime"];
@@ -685,7 +686,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="modal-body">
             <div class="md-form md-outline mb-2 form-group">
               <label for="appointment-date">Date</label>
-              <input type="date" class="form-control rounded-pill form-control-lg" placeholder="reschedule-date" name="scheduleDate" value="<?php echo $pdo->query("SELECT DATE(NOW()) as 'Today';")->fetch()["Today"]; ?>" required />
+              <input type="date" class="form-control rounded-pill form-control-lg" placeholder="reschedule-date" name="scheduleDate" value="<?php echo $pdo->query("SELECT CURDATE() as 'Today';")->fetch()["Today"]; ?>" required />
             </div>
             <div class="md-form md-outline mb-3">
               <label for="appointment-time">Time Starts</label>
@@ -761,6 +762,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     if (isset($_POST['empService'])) $empServiceOfferedIDs = $_POST['empService'];
     else $noEmpty = false;
+
 
     if ($noEmpty) {
       try {

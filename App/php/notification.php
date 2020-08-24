@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="..\css\navigation.css">
+        <link rel="stylesheet" href="..\css\context.css">
+        <title>Notifications</title>
+    </head>
+
+    <body>
+        
+        
+        <!-- Home Content -->
+        <div class="container-fluid content-bottom-spacing">
+            <div class="row mt-3 heading margin">
+                <h1>Notifications</h1>
+            </div>
+           
+            <div class="list-group">
+                <h7 class="mt-3">Today</h7>
+                <a href="appointment-normal.php" class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Nio's Clinic</h5>
+                    <small><span class="badge">Just now</span></small>
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <small>Today is your appointment</small>
+                  </div>
+                </a>
+                <h7 class="mt-3">07/28/2020</h7>
+                <a href="appointment-cancel.php" class="list-group-item-cancel list-group-item-cancel-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Sheenpai Tooth Cemetery</h5>
+                    <small><span class="badge">Viewed</span></small>
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <small>Cancellation Tooth Extraction</small>
+                  </div>
+                </a>
+                <h7 class="mt-3">07/13/2020</h7>
+                <a href="appointment-reschedule.php" class="list-group-item-reschedule list-group-item-reschedule-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Jajavin BeauTeethful</h5>
+                    <small><span class="badge">11:00 AM</span></small>
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <small>Rescheduled Tooth Extraction</small>
+                  </div>
+                </a>
+                <a href="appointment-rate.php" class="list-group-item-rate list-group-item-rate-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Salon Pass</h5>
+                    <small><span class="badge">Viewed</span></small>
+                  </div>
+                  <div class="d-flex w-100 justify-content-between">
+                    <small>Hair Color</small>
+                  </div>
+                </a>
+            </div>
+        
+        </div>
+        <!-- Bottom Menu -->
+        <?php include "layouts/bottom-menu-nav.php";?>
+
+    </body>
+</html>

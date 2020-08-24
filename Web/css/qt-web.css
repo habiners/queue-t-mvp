@@ -1,0 +1,357 @@
+.navbar-violet{
+    background-color:#551FBD;
+    color:#fff;
+}
+
+.calendar, .calendar_weekdays, .calendar_content {
+    max-width: 300px;
+}
+.calendar {
+    margin: auto;
+    font-family:'montserrat', sans-serif;
+    font-weight: 400;
+}
+.calendar_content, .calendar_weekdays, .calendar_header {
+    position: relative;
+    overflow: hidden;
+}
+.calendar_weekdays div {
+    display:inline-block;
+    vertical-align:top;
+}
+.calendar_weekdays div, .calendar_content div {
+    width: 14.28571%;
+    overflow: hidden;
+    text-align: center;
+    background-color: transparent;
+    color: #6f6f6f;
+    font-size: 14px;
+    font-weight: 500;
+}
+.calendar_content div {
+    border: 1px solid transparent;
+    float: left;
+}
+.calendar_content div:hover {
+    border: 1px solid #dcdcdc;
+    cursor: default;
+}
+.calendar_content div.blank:hover {
+    cursor: default;
+    border: 1px solid transparent;
+}
+.calendar_content div.past-date {
+    color: #d5d5d5;
+}
+.calendar_content div.today {
+    /*! if dili magwork ang color diri do this:
+    1) Go to "calendar.js"
+    2) Click Ctrl + F
+    3) Look for this " calendar.datesBody.find(".today").css("color", "#4d376f;"); "
+    4) Change the color
+    */
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+    background-color: #551FBD;
+    border: 1px solid white;
+}
+.calendar_content div.selected {
+    background-color: #f0f0f0;
+}
+.calendar_header {
+    width: 100%;
+    text-align: center;
+}
+.calendar_header h2 {
+    padding: 0 10px;
+    font-family:'Montserrat', sans-serif;
+    font-weight: 650;
+    font-size: 18px;
+    color: #4d376f;
+    float:left;
+    width:70%;
+    margin: 0 0 10px;
+}
+button.switch-month {
+    background-color: transparent;
+    padding: 0;
+    outline: none;
+    border: none;
+    color: #dcdcdc;
+    float: left;
+    width:15%;
+    transition: color .2s;
+}
+button.switch-month:hover {
+    color: #8957d8;
+}
+
+
+.hover-design-effect:hover{
+    background-color: rgba(114,61,190,0.2);
+    opacity: 0.2px;
+    border-top-left-radius: 25.5px;
+    border-top-right-radius: 25.5px;
+}
+.background-design{
+    background-color: #6a2cce;
+    border-color: transparent;
+    height: 55px;
+    width: 45%;
+    float: left;
+    margin-right: 10px;
+    margin-top: -5px;
+    padding: 10px;
+    border-bottom-right-radius: 25px;
+}
+.margin{
+    margin-right: 60px;
+}
+.real-time-queue{
+    background-color: #fff;
+    height: 350px;
+    width: 50%;
+    margin-left: 100px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+.border-violet{
+    border: 3.5px solid #551FBD;
+} 
+.uppercase{
+    text-transform: uppercase;
+}
+.queue-view-header{
+    margin-top:10px;
+    color: #444;
+    font-size: 18px;
+}
+.queue-view-number{
+    margin-top: -28px;
+    font-weight: 800;
+    font-size: 95px;
+    color: #551FBD;
+}
+.queue-view-name{
+    color: #444;
+    margin-top:-20px;
+    font-size:22px;
+}
+.bottom-border{
+    border-bottom-width: 3.5px;
+    border-bottom-style: solid;
+    border-bottom-color:  #551FBD;
+}
+
+.bg-queue{
+    background-color: rgb(247, 247, 247);
+    color: #444;
+}
+.btn-remove {
+    background: 0 0;
+    color: #ff0000;
+    font-size: .875rem;
+    margin: -.75rem 0;
+    padding: .25rem .5rem;
+}
+.btn-reschedule{
+    background: 0 0;
+    color:  #551FBD;
+    font-size: .875rem;
+    margin: -.75rem 0;
+    padding: .25rem .5rem;
+}
+.table-format{
+    margin-top: 5px;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+.thead-format{
+    background-color: #1a9a8b;
+    color: whitesmoke;
+    font-size: 23px;
+    font-weight: 700;
+    margin-bottom:30px;
+}
+
+
+
+.td-center{
+    text-align: center;
+}
+
+.margin-specific{
+    margin-left: 5px;
+}
+.card-size{
+    width: 786px;
+}
+
+
+
+.data-analytics-view{
+    background-color: #fff;
+    height: 310px;
+    width: 70%;
+    margin-left: 100px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+.margin-middle{
+    margin-top: -15px;
+}
+.margin-data-header{
+    margin-top: 10px;
+}
+
+.picture-container{
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+}
+.picture{
+    width: 106px;
+    height: 106px;
+    background-color: #999999;
+    border: 4px solid #CCCCCC;
+    color: #FFFFFF;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all 0.2s;
+    -webkit-transition: all 0.2s;
+}
+.picture:hover{
+    border-color: #2ca8ff;
+}
+.content.ct-wizard-green .picture:hover{
+    border-color: #05ae0e;
+}
+.content.ct-wizard-blue .picture:hover{
+    border-color: #3472f7;
+}
+.content.ct-wizard-orange .picture:hover{
+    border-color: #ff9500;
+}
+.content.ct-wizard-red .picture:hover{
+    border-color: #ff3b30;
+}
+.picture input[type="file"] {
+    cursor: pointer;
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0 !important;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.picture-src{
+    width: 100%;  
+}
+.choose-picture{
+    color: #b6b6bb;
+    margin-bottom:-10px;
+    float: left;
+    margin-left: 95px;
+    margin-top: -20px;
+}
+.length-input{
+    margin-right: 100px;
+}
+@media (max-width:1019px) {
+    .background-design{
+        background-color: #8856d8;
+        height: 60px;
+        width: 350px;
+        float: left;
+        margin-right: 10px;
+        padding: 10px;
+        border-bottom-right-radius: 25px;
+    }
+}
+@media (max-width:743px) {
+    .background-design{
+        background-color: #8856d8;
+        height: 60px;
+        width: 50%;
+        float: left;
+        margin-right: 10px;
+        padding: 10px;
+        border-bottom-right-radius: 25px;
+    }
+}
+@media (max-width:694px) {
+    .background-design{
+        background-color: #8856d8;
+        height: 60px;
+        width: 75%;
+        float: left;
+        margin-right: 10px;
+        padding: 10px;
+        border-bottom-right-radius: 25px;
+    }
+}
+@media (max-width:464px) {
+    .background-design{
+        background-color: #8856d8;
+        height: 60px;
+        width: 350px;
+        float: left;
+        margin-right: 10px;
+        padding: 10px;
+        border-bottom-right-radius: 25px;
+    }
+}
+@media (max-width:379px) {
+    .background-design{
+        background-color: #8856d8;
+        height: 50px;
+        width: 310px;
+        float: left;
+        margin-right: 10px;
+        padding: 10px;
+        border-bottom-right-radius: 25px;
+        font-size:50px;
+    }
+    .content-header h1 {
+        font-size: 1.5rem;
+        margin: 0;
+    }
+}
+@media (max-width:320px) {
+    .background-design{
+        background-color: #8856d8;
+        height: 50px;
+        width: 310px;
+        float: left;
+        margin-right: 10px;
+        padding: 10px;
+        border-bottom-right-radius: 25px;
+        font-size:50px;
+    }
+    .content-header h1 {
+        font-size: 1.5rem;
+        margin: 0;
+    }
+}
+@media (max-width:280px) {
+    .background-design{
+        background-color: #8856d8;
+        height: 50px;
+        width: 270px;
+        float: left;
+        margin-right: 10px;
+        padding: 10px;
+        border-bottom-right-radius: 25px;
+        font-size:50px;
+    }
+    .content-header h1 {
+        font-size: 1.3rem;
+        margin: 0;
+    }
+}

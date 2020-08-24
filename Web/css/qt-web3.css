@@ -1,0 +1,78 @@
+.table-border-right{
+    border-right: solid #e2e6e9;
+}
+.table-border-left{
+    border-left: solid #e2e6e9;
+}
+.btn-setting{
+    color:#723dbe;
+}
+.btn-arrow{
+    color:#723dbe;
+}
+.bg-serving {
+    background-color:   #551FBD;
+    color: white;
+}
+.bg-done {
+    background-color:  #473d63;
+    color:whitesmoke;
+}
+.hover-effect:hover{
+   font-weight: bold;
+}
+.served{
+    font-size: 3px;
+}
+
+.designTableSuki{
+    background-color: #551FBD;
+    color: white;
+}
+.sukiTableTr:hover{
+    background-color: rgb(247, 247, 247);
+}
+.sukiBackBtn{
+    color: #551FBD;
+    font-size: 30px;
+    margin-top: -10px;
+}
+.sukiBackBtn:hover{
+    color: #212529;
+    font-size: 30px;
+    margin-top: -10px;
+}
+
+
+.finance-summary-view {
+    background-color: #fff;
+    height: 310px;
+    width: 40%;
+    margin-left: 100px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+.designTableFinance{
+    background-color: #551FBD;
+    color: white;
+}
+.financeTableTr:hover{
+    background-color: rgb(247, 247, 247);
+}
+
+.btn-add{
+    background-color:#551FBD;
+    color: white;
+    margin-top: -10px;
+    font-size: 20px;
+}
+
+.btn-delete{
+    background: 0 0;
+    color: rgb(255, 0, 0);
+    font-size: .875rem;
+    margin: -.75rem 0;
+    padding: .25rem .5rem;
+}

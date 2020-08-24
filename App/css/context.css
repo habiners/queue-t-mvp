@@ -1,0 +1,379 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900');
+
+a {
+    color: #723dbe;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+body{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.container-fluid{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+h1{
+    text-transform: uppercase;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+h5{
+    margin-block-start: 8px;
+    margin-block-end: 0px;
+    font-size: 18px;
+    font-weight: 630;
+}
+
+h7{
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+h9{
+    margin-block-start: 20px;
+    margin-block-end: 10px;
+    font-size: 110px;
+    font-weight: 900;
+    color: #444;
+}
+
+h10{
+    font-size: 22px;
+    font-weight: 700;
+    color: #444;
+}
+
+.custom-select{
+    font-size: 16px;
+    margin-block-start: 15px;
+    margin-block-end: 0;
+    border-radius: 90px;
+    background-color: #f1f1f1;
+    border-color: transparent;
+    color: #333;   
+}
+
+.container-fluid .custom-control-label{
+    padding-top: 4px;
+    font-size: 15px;
+    font-weight: 520;
+    color: #444;
+}
+
+.container-shopProfile .custom-control-label{
+    padding-top: 0px;
+    font-size: 15px;
+    font-weight: 520;
+    color: #444;
+}
+
+.form-control{
+    font-size: 16px;
+    margin-block-start: 0;
+    background-color: #ececec;
+    border-color: transparent;
+    border-radius: 70px;
+    color: #444;
+}
+
+a:hover {
+    color: #723dbe;
+    text-decoration: none;
+}
+.heading{
+    color:#400974;
+}
+.margin{
+    margin-left: 1px;
+}
+.content-bottom-spacing{
+    padding-bottom: 50px;
+    margin-bottom: 50px;
+}
+
+.btn-design{
+    font-size: 15px;
+    border-color: transparent;
+    background-color: #723dbe;
+    color: #ffffff;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 70px;
+    border-bottom-right-radius: 70px;
+}
+.btn-design:active{
+    background-color: #723dbe;
+    color: #ffffff;
+}
+.btn-design:hover{
+    background-color: #723dbe;
+    color: #ffffff;
+}
+.btn-design:visited{
+    background-color: #723dbe;
+    color: #ffffff;
+}
+
+.rating {
+    color: #ffbf00;
+}
+
+a:hover {
+    color: #0056b3;
+    /* text-decoration: underline; */
+}
+
+/* FOR SHOP PROFILE */
+.shop-profile-area{
+    padding-top: 90px;
+    padding-bottom: 90px;
+    padding-left: 0px;
+    padding-right:0px;
+    background-color: #723dbe;
+    color: #ffffff;
+}
+
+/* FOR NOTIF AND APPOINTMENT CANCELLED BY BUSINESS OWNER */
+.list-group-item-cancel {
+    position: relative;
+    display: block;
+    padding: .65rem .8rem;
+    background-color: #442255;
+    border: 1px solid rgba(0,0,0,.125);
+}
+.list-group-item-cancel-action {
+    width: 100%;
+    color: #ffffff;
+    text-align: inherit;
+}
+.list-group-item-cancel-action:hover {
+    color: #ffffff;
+    background-color: #491488;
+    text-decoration: none;
+}
+.list-group-item-cancel-action:active {
+    width: 100%;
+    color: #ffffff;
+    background-color: #442255;
+    text-align: inherit;
+}
+
+/* FOR NOTIF AND APPOINTMENT RESCHEDULED BY BUSINESS OWNER */
+.list-group-item-reschedule {
+    position: relative;
+    display: block;
+    padding: .65rem .8rem;
+    background-color:#7744aa;
+    border: 1px solid rgba(0,0,0,.125);
+}
+.list-group-item-reschedule-action {
+    width: 100%;
+    color: #ffffff;
+    text-align: inherit;
+}
+.list-group-item-reschedule-action:hover {
+    color: #ffffff;
+    background-color:#671b99;
+    text-decoration: none;
+}
+.list-group-item-reschedule-action:active {
+    width: 100%;
+    color: #ffffff;
+    background-color:#7744aa;
+    text-align: inherit;
+}
+
+/* FOR NOTIF AND APPOINTMENT TO BE RATED */
+.list-group-item-rate {
+    position: relative;
+    display: block;
+    padding: .65rem .8rem;
+    background-color:#aa66cc;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+.btn-delete:hover{
+    color: rgb(216, 216, 216);
+}
+
+.btn-delete{
+    padding-top: 5px;
+    font-size: 15px;
+}
+
+.list-group-item-rate-action {
+    width: 100%;
+    color: #ffffff;
+    text-align: inherit;
+}
+.list-group-item-rate-action:hover {
+    color: #ffffff;
+    background-color:#9542be;
+    text-decoration: none;
+}
+.list-group-item-rate-action:active {
+    width: 100%;
+    color: #ffffff;
+    background-color:#aa66cc;
+    text-align: inherit;
+}
+
+/* PROFILE*/
+.profile-list-link{
+    padding-top: 4.5px;
+    padding-left: 10px;
+    color:#444;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.profile-list-link:hover{
+    color:#5b278f;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+
+.profile-list-link:focus{
+    color:#5b278f;
+    text-decoration: none;
+
+}
+.profile-list-link:active{
+    color:#5b278f;
+    text-decoration: none;
+}
+.face-icon{
+    margin-top: 9px;
+    color: #723dbe;
+    font-size:40px;
+}
+.help-icon{
+    margin-top: 8px;
+    color: #723dbe;
+    font-size:40px;
+}
+.exit-icon{
+    margin-top: 7px;
+    color:#723dbe;
+    font-size:40px;
+}
+
+/*Profile Pic Start*/
+.picture-container{
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+}
+.picture{
+    width: 106px;
+    height: 106px;
+    background-color: #999999;
+    border: 4px solid #CCCCCC;
+    color: #FFFFFF;
+    border-radius: 50%;
+    margin: 0px auto;
+    overflow: hidden;
+    transition: all 0.2s;
+    -webkit-transition: all 0.2s;
+}
+.picture:hover{
+    border-color: #2ca8ff;
+}
+.content.ct-wizard-green .picture:hover{
+    border-color: #05ae0e;
+}
+.content.ct-wizard-blue .picture:hover{
+    border-color: #3472f7;
+}
+.content.ct-wizard-orange .picture:hover{
+    border-color: #ff9500;
+}
+.content.ct-wizard-red .picture:hover{
+    border-color: #ff3b30;
+}
+.picture input[type="file"] {
+    cursor: pointer;
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0 !important;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.picture-src{
+    width: 100%;  
+}
+.choose-picture{
+    color: #b6b6bb;
+    padding-bottom: 5px;
+    margin-left: 90px;
+    margin-top: -20px;
+}
+
+/* PROFILE*/
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+
+.rating>input {
+    display: none
+}
+
+.rating>label {
+    position: relative;
+    width: 30px;
+    font-size: 6vw;
+    color: #ffc300;
+    cursor: pointer;
+}
+
+.rating>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0
+}
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+    opacity: 1 !important
+}
+
+.rating>input:checked~label:before {
+    opacity: 1
+}
+
+.rating:hover>input:checked~label:before {
+    opacity: 0.4
+}
+
+.btn-success {
+    font-size: 15px;
+    border-radius: 40px;
+    padding-right: 15px;
+    padding-left: 15px;
+    color: #fff;
+    background-color: #007bff;
+    border-color: transparent;
+  }
+  
+  .btn-success:focus,.btn-success:active, .btn-success:hover{
+    border-radius: 70px;
+    color: #fff;
+    background-color: #0062cc;
+    border-color: #0062cc;
+  }
+  
+  .container-QT-points{
+    padding-left: 15px;
+    padding-right: 15px;
+}

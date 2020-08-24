@@ -38,8 +38,7 @@
                   session_start();
                   $statement = $pdo->query("SELECT * FROM USER WHERE userID =" . $_SESSION['userID'] . ";");
                   $user = $statement->fetch();
-                  $isMale = $user['sex'] == 'M' ? true : false;
-                //   echo $user['username'], $user['sex'];
+                  $isMale = $user['gender'] == 'M' ? true : false;
             ?>
             <div class="container-fluid mt-3">
                 <div class="form-group">

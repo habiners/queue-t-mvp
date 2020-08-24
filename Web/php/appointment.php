@@ -212,8 +212,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <tr>
                     <?php
                     //Get all Employees of a Business
-                    // if (isset($_POST['Submit']) && ($_POST['Submit'] == "addEmployee" || $_POST['Submit'] == "addSchedule")) //Refreshes page somehow
-                    //   echo "<meta http-equiv='refresh' content='0'>";
+                    if (isset($_POST['Submit']) && ($_POST['Submit'] == "addEmployee" || $_POST['Submit'] == "addSchedule")) //Refreshes page somehow
+                      echo "<meta http-equiv='refresh' content='0'>";
 
                     $statement = $pdo->query("SELECT DISTINCT concat(WORKER.firstName, ' ', WORKER.lastName) AS \"workerName\", WORKER.workerID FROM BUSINESS
                       INNER JOIN SERVICES_OFFERED

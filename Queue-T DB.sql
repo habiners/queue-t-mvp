@@ -12,6 +12,7 @@ SELECT * FROM BUSINESS_HOURS;
 SELECT * FROM BUSINESS_CATEGORY;
 SELECT * FROM SERVICE_CATEGORY;
 SELECT * FROM SERVICE;
+SELECT * FROM SCHEDULE;
 
 DESCRIBE USER;
 DESCRIBE BUSINESS;
@@ -167,14 +168,16 @@ CREATE TABLE EMPLOYEE(
 	updatedAt TIMESTAMP NOT NULL
 );
 
+select * from schedule;
+ALTER TABLE SCHEDULE CHANGE timeEnd timeEnd TIMESTAMP;
 #10. Schedule=====================================================================================================================================
 CREATE TABLE SCHEDULE(
 	scheduleID INT PRIMARY KEY AUTO_INCREMENT,
     workerID INT,
 	FOREIGN KEY (workerID) REFERENCES WORKER (workerID)
 		ON DELETE SET NULL ON UPDATE CASCADE,
-	timeStart TIME,
-	timeEnd TIME,
+	timeStart TIMESTAMP,
+	timeEnd TIMESTAMP,
 
 	isOpen BOOL, # [note: 'If true, open or free schedule']
 	createdAt TIMESTAMP NOT NULL,

@@ -274,107 +274,144 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body overflow-auto">
-
-                    <div class="info-box" data-toggle="modal" data-target="#addPhysicalQueue">
-                      <span class="info-box-icon hover-effect"></span>
-                      <div class="info-box-content hover-effect">
-                        <span class="info-box-text font-weight-bold">5:10-5:30 PM</span>
-                        <h5 class="uppercase">
-                          Vacant
-                        </h5>
-                      </div>
-                      <span class="info-box-text small">
-                        open
-                      </span>
-                    </div>
-
-                    <div class="info-box bg-queue hover-effect" data-toggle="modal" data-target="#myOnQueue">
-                      <span class="info-box-icon font-weight-bold bg-queue hover-effect">5</span>
-
-                      <div class="info-box-content bg-queue hover-effect">
-                        <span class="info-box-text font-weight-bold">5:30-6:30 PM</span>
-                        </span>
-                        <span class="progress-description">
-                          Javin Tan
-                        </span>
-                        <span class="info-box-text">Cleaning & Pasta</span>
-                      </div>
-                      <span class="info-box-icon">
-                        <button type="button bg-queue" class="btn btn-reschedule" data-toggle="modal" data-target="#myReschedule">
-                          <i class="fas fa-calendar-plus"></i>
-                        </button>
-                      </span>
-                      <span class="info-box-icon">
-                        <button type="button bg-queue" class="btn btn-remove" data-toggle="modal" data-target="#myCancel">
-                          <i class="fas fa-times"></i>
-                        </button>
-                      </span>
-                      <!-- The RESCHEDULE Modal -->
-                      <div class="modal fade" id="myReschedule">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                              <h4 class="modal-title font-weight-bold">Reschedule Appointment</h4>
-                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                              <p class="d-flex justify-content-center">Are you sure to RESCHEDULE Javin Tan's Cleaning and Pasta @ 3:20 PM?</p>
-                              <div class="md-form md-outline mb-2">
-                                <label for="reschedule-date">Reschedule Date</label>
-                                <input type="date" class="form-control rounded-pill form-control-lg" placeholder="reschedule-date" required="">
-                              </div>
-                              <div class="md-form md-outline mb-3">
-                                <label for="reschedule-time">Reschedule Time</label>
-                                <input type="time" id="default-picker" class="form-control" placeholder="Select time" required="">
-                              </div>
-
-
-                            </div>
-
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-success mr-5" data-dismiss="modal">Yes</button>
-                              <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
-                            </div>
-
+                    <!-- Content Start -->
+                    <div id="employee" class="row carousel slide pics-size" data-ride="carousel" data-interval="false">
+                      <ul class="carousel-indicators">
+                        <li data-target="#employee" data-slide-to="0" class="active"></li>
+                        <li data-target="#employee" data-slide-to="1"></li>
+                        <li data-target="#employee" data-slide-to="2"></li>
+                      </ul>
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <div class="row justify-content-center mt-2">
+                            <h5>HIF</h5>
+                          </div>
+                          <div class="row justify-content-center mt-2">
+                            <h5>NANI</h5>
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <div class="row justify-content-center mt-2">
+                            <h5>HIT</h5>
+                          </div>
+                          <div class="row justify-content-center mt-2">
+                            <h5>NANI</h5>
                           </div>
                         </div>
                       </div>
-
-                      <!-- CANCEL MODAL -->
-                      <div class="modal fade" id="myCancel">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                              <h4 class="modal-title font-weight-bold">Cancel Appointment</h4>
-                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                              <h5 class="d-flex justify-content-center">Are you sure you want to CANCEL Javin Tan's Cleaning and Pasta Appointment at 3:20 PM?</h5>
-                            </div>
-
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-success mr-5" data-dismiss="modal">Yes</button>
-                              <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <a class="carousel-control carousel-control-prev" href="#employee" data-slide="prev">
+                        <button type="button" class="btn btn-arrow hover-effect">
+                          <i class="mr-4 fas fa-angle-left fa-2x"></i>
+                        </button>
+                      </a>
+                      <a class="carousel-control carousel-control-next" href="#employee" data-slide="next">
+                        <button type="button" class="btn btn-arrow hover-effect">
+                          <i class="mr-4 fas fa-angle-right fa-2x"></i>
+                        </button>
+                      </a>
                     </div>
-                    <!-- ./Javin End -->
+
                   </div>
-                  <!-- ./card-end -->
+                  <div class="info-box" data-toggle="modal" data-target="#addPhysicalQueue">
+                    <span class="info-box-icon hover-effect"></span>
+                    <div class="info-box-content hover-effect">
+                      <span class="info-box-text font-weight-bold">5:10-5:30 PM</span>
+                      <h5 class="uppercase">
+                        Vacant
+                      </h5>
+                    </div>
+                    <span class="info-box-text small">
+                      open
+                    </span>
+                  </div>
 
-                </div> <!-- ./container-end -->
+                  <div class="info-box bg-queue hover-effect" data-toggle="modal" data-target="#myOnQueue">
+                    <span class="info-box-icon font-weight-bold bg-queue hover-effect">5</span>
+
+                    <div class="info-box-content bg-queue hover-effect">
+                      <span class="info-box-text font-weight-bold">5:30-6:30 PM</span>
+                      </span>
+                      <span class="progress-description">
+                        Javin Tan
+                      </span>
+                      <span class="info-box-text">Cleaning & Pasta</span>
+                    </div>
+                    <span class="info-box-icon">
+                      <button type="button bg-queue" class="btn btn-reschedule" data-toggle="modal" data-target="#myReschedule">
+                        <i class="fas fa-calendar-plus"></i>
+                      </button>
+                    </span>
+                    <span class="info-box-icon">
+                      <button type="button bg-queue" class="btn btn-remove" data-toggle="modal" data-target="#myCancel">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </span>
+                    <!-- The RESCHEDULE Modal -->
+                    <div class="modal fade" id="myReschedule">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h4 class="modal-title font-weight-bold">Reschedule Appointment</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          </div>
+
+                          <!-- Modal body -->
+                          <div class="modal-body">
+                            <p class="d-flex justify-content-center">Are you sure to RESCHEDULE Javin Tan's Cleaning and Pasta @ 3:20 PM?</p>
+                            <div class="md-form md-outline mb-2">
+                              <label for="reschedule-date">Reschedule Date</label>
+                              <input type="date" class="form-control rounded-pill form-control-lg" placeholder="reschedule-date" required="">
+                            </div>
+                            <div class="md-form md-outline mb-3">
+                              <label for="reschedule-time">Reschedule Time</label>
+                              <input type="time" id="default-picker" class="form-control" placeholder="Select time" required="">
+                            </div>
+
+
+                          </div>
+
+                          <!-- Modal footer -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-success mr-5" data-dismiss="modal">Yes</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- CANCEL MODAL -->
+                    <div class="modal fade" id="myCancel">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h4 class="modal-title font-weight-bold">Cancel Appointment</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          </div>
+
+                          <!-- Modal body -->
+                          <div class="modal-body">
+                            <h5 class="d-flex justify-content-center">Are you sure you want to CANCEL Javin Tan's Cleaning and Pasta Appointment at 3:20 PM?</h5>
+                          </div>
+
+                          <!-- Modal footer -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-success mr-5" data-dismiss="modal">Yes</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- ./Javin End -->
+                </div>
+                <!-- ./card-end -->
+
+              </div> <!-- ./container-end -->
             </section>
           </div>
         </div>

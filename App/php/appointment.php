@@ -1,3 +1,6 @@
+<?php
+  require_once "pdo-conn.php";
+?>
 <!doctype html>
 <html>
     <head>
@@ -24,7 +27,7 @@
             </div>
            
             <div class="list-group">
-                <h7 class="mt-3">Today</h7>
+                <h7 class="mt-3">Today (<?php echo $pdo->query("SELECT NOW() AS today;")->fetch()["today"];?>)</h7>
                 <a href="appointment-normal.php" class="list-group-item list-group-item-action flex-column align-items-start">
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">Nio's Clinic</h5>

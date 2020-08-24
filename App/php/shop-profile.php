@@ -245,6 +245,7 @@
                     </div>
                   </div>
                 </div>
+                <!-- Carousel -->
                 <div id="employee" class="row carousel slide pics-size" data-ride="carousel" data-interval="false">
                   <ul class="carousel-indicators">
                     <li data-target="#employee" data-slide-to="0" class="active"></li>
@@ -374,6 +375,9 @@
                   </a>
                   <button type="button" class="btn btn-arrow hover-effect">
                     <i class="mr-4 fas fa-angle-left fa-2x"></i>
+                  </button>
+                  <button type="button" class="btn btn-arrow hover-effect">
+                    <i class="mr-4 fas fa-angle-right fa-2x"></i>
                   </button>
                 </div>
                 <div class="row justify-content-center">

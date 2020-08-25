@@ -1,8 +1,19 @@
 <?php
-require_once "pdo-conn.php";
-session_start();
-$businessID = $_SESSION["businessID"];
-$userID = $_SESSION["userID"];
+  require_once "pdo-conn.php";
+  session_start();
+  $businessID = $_SESSION["businessID"];
+  $userID = $_SESSION["userID"];
+
+  function inpClean($data)
+  { //Manglimpyo ni siya
+    $data = trim($data); //gets rid of whitespace
+    $data = stripslashes($data); //gets rid of slashes
+    $data = htmlspecialchars($data); //translates html for security
+
+    return $data;
+}
+if (isset($_POST['Submit']) && $_POST['Submit'] == "addSchedule") //Refreshes page somehow
+echo "<meta http-equiv='refresh' content='0'>";
 ?>
 <!DOCTYPE html>
 <!--
@@ -221,43 +232,80 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <button class="btn btn-add" data-toggle="modal" data-target="#addPhysicalQueue">
                       <i class="fa fa-plus"></i>
                     </button>
+                    <?php
+                    //Add SChedule backend
+                    //Add Schedule Back-end============================================================================================================
+                    if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["Submit"] == "addSchedule") {
+                      // echo $_POST["scheduleDate"] . " " . $_POST["scheduleTime"] . " " . $_POST["scheduleWorker"];
+                      $scheduleDate = inpClean($_POST["scheduleDate"]);
+                      $scheduleTimeStart = $_POST["scheduleTime"] . ":00";
+                      $scheduleWorker = inpClean($_POST["scheduleWorker"]);
+
+                      $scheduleTimeEnd = $pdo->query("SELECT concat(WORKER.firstName, ' ', WORKER.lastName) AS \"workerName\", 
+                        ADDTIME(TIME('$scheduleTimeStart'), MAX(ADDTIME(serviceDuration, cleaningDuration))) as \"endTime\"
+                        FROM WORKER
+                          INNER JOIN EMPLOYEE
+                          ON EMPLOYEE.workerID = WORKER.workerID AND WORKER.workerID = $scheduleWorker
+                            INNER JOIN SERVICES_OFFERED
+                            ON EMPLOYEE.serviceOfferedID = SERVICES_OFFERED.serviceOfferedID AND SERVICES_OFFERED.businessID = $businessID
+                              INNER JOIN SERVICE
+                              ON SERVICES_OFFERED.serviceID = SERVICE.serviceID
+                                GROUP BY workerName;")->fetch()["endTime"];
+                      try {
+                        $pdo->exec("INSERT INTO SCHEDULE (workerID, date, timeStart, timeEnd, isOpen, createdAt, updatedAt) VALUES ($scheduleWorker, '$scheduleDate', '$scheduleTimeStart', '$scheduleTimeEnd', 1, now(), now());");
+                      } catch (Exception $e) {
+                        echo "Could not insert! Error: $e";
+                      }
+                    }                    ?>
                     <div class="modal fade" id="addPhysicalQueue">
                       <div class="modal-dialog">
                         <div class="modal-content">
-                          <!-- Modal Header -->
+                          <!-- Modal Header Add a Schedule -->
                           <div class="modal-header">
-                            <h4 class="modal-title font-weight-bold">Make an Appointment</h4>
+                            <!-- <h4 class="modal-title font-weight-bold">Make an Appointment</h4> -->
+                            <h4 class="modal-title font-weight-bold">Add a Schedule</h4>
                             <button type="button" class="btn close" data-dismiss="modal">&times;</button>
                           </div>
                           <!-- Modal body -->
-                          <div class="modal-body">
-                            <div class="md-form md-outline mb-3">
-                              <label class="mr-sm-2" for="service">Service Category</label>
-                              <select class="my-select mr-sm-2" id="try">
-                                <option selected>Choose...</option>
-                                <option value="1">Cleaning</option>
-                                <option value="2">Pasta</option>
-                                <option value="3">Tooth Extraction</option>
-                              </select>
+                          <form id="schedule-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                            <div class="modal-body">
+                              <div class="md-form md-outline mb-2 form-group">
+                                <label for="appointment-date">Date</label>
+                                <input type="date" class="form-control rounded-pill form-control-lg" placeholder="reschedule-date" name="scheduleDate" value="<?php echo $pdo->query("SELECT CURDATE() as 'Today';")->fetch()["Today"]; ?>" required />
+                              </div>
+                              <div class="md-form md-outline mb-3">
+                                <label for="appointment-time">Time Starts</label>
+                                <input type="time" class="form-control" placeholder="Select time" name="scheduleTime" value="08:00" required />
+                              </div>
+                              <div class="md-form md-outline mb-3">
+                                <label for="worker">Worker</label>
+                                <select class="custom-select mr-sm-2" name="scheduleWorker" id="worker">
+                                  <?php
+                                  $statement = $pdo->query("SELECT DISTINCT concat(WORKER.firstName, ' ', WORKER.lastName) AS \"workerName\", WORKER.workerID FROM BUSINESS
+                                    INNER JOIN SERVICES_OFFERED
+                                    ON BUSINESS.businessID = SERVICES_OFFERED.businessID AND BUSINESS.businessID = $businessID #change this
+                                      INNER JOIN EMPLOYEE
+                                      ON EMPLOYEE.serviceOfferedID = SERVICES_OFFERED.serviceOfferedID
+                                        INNER JOIN WORKER
+                                        ON EMPLOYEE.workerID = WORKER.workerID;");
+                                  $workers = $statement->fetchAll();
+                                  foreach ($workers as $option) {
+                                    echo "<option value=\"" . $option["workerID"] . "\">" . $option["workerName"] . "</option>\n";
+                                  }
+                                  ?>
+                                </select>
+                                <small>Note: The schedule's duration will be based on the selected employee's longest service</small>
+                              </div>
+                              <!-- <div class="md-form md-outline mb-3">
+                  <label for="appointment-time">Duration (based on employee's longest service):</label>
+              </div> -->
                             </div>
-                            <div class="md-form md-outline mb-2">
-                              <label for="appointment-date">Appointment Date: </label>
-                              <span id="dateAppointmentView">Date Today</span>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                              <button type="Submit" class="btn btn-success mr-5" name="Submit" value="addSchedule" form="schedule-form" formmethod="post">Add Schedule</button>
+                              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                             </div>
-                            <div class="md-form md-outline mb-3">
-                              <label for="appointment-time">Time Starts</label>
-                              <input type="time" id="default-picker" class="form-control" placeholder="Select time" required="">
-                            </div>
-                            <div class="md-form md-outline mb-3">
-                              <label for="appointment-time">Time Ends</label>
-                              <input type="text" id="default-picker" class="form-control" placeholder="Select time" required="">
-                            </div>
-                          </div>
-                          <!-- Modal footer -->
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-success mr-5" data-dismiss="modal">Make Appointment</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                          </div>
+                          </form>
                         </div>
                       </div>
                     </div>
@@ -305,6 +353,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           echo '  <div class="row justify-content-center mt-2">';
                           echo '    <h5>' . $carousel["workerName"] . '</h5>';
                           echo '  </div>';
+                          $empServices = $pdo->query("SELECT concat(WORKER.firstName, ' ', WORKER.lastName) AS \"workerName\", EMPLOYEE.employeeID, serviceName FROM WORKER
+                            INNER JOIN EMPLOYEE
+                            ON EMPLOYEE.workerID = WORKER.workerID AND WORKER.workerID = " . $carousel["workerID"] .
+                            " INNER JOIN SERVICES_OFFERED
+                              ON EMPLOYEE.serviceOfferedID = SERVICES_OFFERED.serviceOfferedID AND SERVICES_OFFERED.businessID = $businessID
+                                INNER JOIN SERVICE
+                                ON SERVICES_OFFERED.serviceID = SERVICE.serviceID;")->fetchAll();
+                          echo '  <div class="row justify-content-center mt-2">(';
+                          $len = count($empServices);
+                          $i = 1;
+                          foreach ($empServices as $service) {
+                            echo $service["serviceName"];
+                            if ($i != $len) echo ", ";
+                            $i++;
+                          }
+                          echo ")";
+                          echo '  </div><br>';
 
                           $schedules = $pdo->query("SELECT scheduleID, CONCAT(time_format(timeStart, '%h:%i') , ' ', IF(TIME(timeStart) >= '12:00:00', 'PM', 'AM')) as 'timeStartFormatted', 
                               CONCAT(time_format(timeEnd, '%h:%i') , ' ', IF(TIME(timeEnd) >= '12:00:00', 'PM', 'AM')) as timeEnd, isOpen, WORKER.workerID, concat(WORKER.firstName, ' ', WORKER.lastName) AS 'workerName' FROM SCHEDULE 
@@ -317,14 +382,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                       GROUP BY timeStart ORDER BY timeStart ASC;")->fetchAll();
 
                           foreach ($schedules as $schedule) {
-                            if(!$schedule["isOpen"]){
+                            if (!$schedule["isOpen"]) {
                               $personAppoint = $pdo->query("SELECT CONCAT(USER.firstName, ' ', USER.middleName, ' ', USER.lastName) AS 'name', SCHEDULE.scheduleID, APPOINTMENT.serviceID FROM SCHEDULE
                                 INNER JOIN APPOINTMENT
                                 ON SCHEDULE.scheduleID = APPOINTMENT.scheduleID AND APPOINTMENT.isActive = 1 AND SCHEDULE.scheduleID = " . $schedule["scheduleID"] . "
                                   INNER JOIN USER
                                   ON APPOINTMENT.userID = USER.userID;")->fetch();
                             }
-  
+
                             echo '<div class="info-box ' . ($schedule["isOpen"] ? '' : 'bg-done') . ' hover-effect" data-toggle="modal" data-target="#addPhysicalQueue">';
                             echo '  <span class="info-box-icon hover-effect"></span>';
                             echo '   <div class="info-box-content hover-effect">';

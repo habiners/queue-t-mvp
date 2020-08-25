@@ -313,7 +313,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         CONCAT(time_format(timeEnd, '%h:%i') , ' ', IF(TIME(timeEnd) >= '12:00:00', 'PM', 'AM')) as timeEnd, isOpen, WORKER.workerID, concat(WORKER.firstName, ' ', WORKER.lastName) AS 'workerName' FROM SCHEDULE 
                           INNER JOIN WORKER
                           ON SCHEDULE.workerID = WORKER.workerID AND WORKER.workerID = " . $column["workerID"] .
-                            " INNER JOIN EMPLOYEE
+                          " INNER JOIN EMPLOYEE
                             ON WORKER.workerID = EMPLOYEE.workerID
                               INNER JOIN SERVICES_OFFERED
                               ON SERVICES_OFFERED.businessID = $businessID
@@ -325,7 +325,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         }
                         if (!empty($schedule)) {
                           $notDone = true;
-                          if(!$schedule["isOpen"]){
+                          if (!$schedule["isOpen"]) {
                             $personAppoint = $pdo->query("SELECT CONCAT(USER.firstName, ' ', USER.middleName, ' ', USER.lastName) AS 'name', SCHEDULE.scheduleID, APPOINTMENT.serviceID FROM SCHEDULE
                               INNER JOIN APPOINTMENT
                               ON SCHEDULE.scheduleID = APPOINTMENT.scheduleID AND APPOINTMENT.isActive = 1 AND SCHEDULE.scheduleID = " . $schedule["scheduleID"] . "
@@ -651,8 +651,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     $scheduleTimeStart = $_POST["scheduleTime"] . ":00";
     $scheduleWorker = inpClean($_POST["scheduleWorker"]);
 
-    ECHO $scheduleTimeStart . "ahhh";
-    // echo "\n" . $scheduleTimeStart . " OOF";
     $scheduleTimeEnd = $pdo->query("SELECT concat(WORKER.firstName, ' ', WORKER.lastName) AS \"workerName\", 
           ADDTIME(TIME('$scheduleTimeStart'), MAX(ADDTIME(serviceDuration, cleaningDuration))) as \"endTime\"
           FROM WORKER

@@ -338,11 +338,11 @@
                                   ON SERVICES_OFFERED.serviceID = SERVICE.serviceID
                                     ORDER BY totalDuration DESC;");
                       $empServices = $statement->fetchAll();
-                      $tmpService = $empServices['serviceName'];
+                      if(!empty($empServices)) $tmpService = $empServices[0]['serviceName'];
                       foreach ($empServices as $row) {
                         echo '<option value="' . $row['serviceID'];
                         if ($tmpService == $row['serviceName'])
-                          echo "selected";
+                          echo " selected";
                         echo '">' . $row['serviceName'] . '</option>';
                       }
                       echo ' </select>

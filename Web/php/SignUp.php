@@ -62,7 +62,7 @@
         if(!empty($_POST["serviceCategory"])) $serviceCategoryID = inpClean($_POST["serviceCategory"]);
         else $noEmpty = false;
 
-        // echo $gender . " " . $businessCategory . " " . $serviceCategory;
+        echo $gender . " " . $businessCategoryID . " " . $serviceCategoryID . $businessAddress . "\n";
 
         //Checking is username is unique
         $statement = $pdo->query("SELECT username FROM user where username = '$username';");
@@ -76,7 +76,7 @@
 
         strcmp($password, $rePassword) == 0 ? $matchingPass = true : $matchingPass = false;
 
-        echo $noEmpty . " " . $matchingPass . " " . $uniqueUsername . " " . $businessCategoryID . " " . $serviceCategoryID;
+        echo "Yes" . $noEmpty . " " . $matchingPass . " " . $uniqueUsername . " " . $businessCategoryID . " " . $serviceCategoryID;
         // if($noEmpty && $matchingPass && $uniqueUsername && $businessCategoryID && $serviceCategoryID) 
         //     $cond = "True";
         // else
@@ -93,7 +93,8 @@
                 $pdo->exec("INSERT INTO BUSINESS_HOURS VALUES(NULL, 1, 1, 1, 1, 1, 0, 0, 'Weekdays', '8:00', '17:00', '12:00', '13:00', now(), now());");
                 $businessHoursID = $pdo->lastInsertId();
 
-                $pdo->exec("INSERT INTO BUSINESS VALUES (NULL, '$businessName', $userID, $businessHoursID, $businessCategoryID, $serviceCategoryID, 
+                $pdo->exec("INSERT INTO BUSINESS (businessName, userID, businessHoursID, businessCategoryID, serviceCategoryID, address, email, contactNum, description, createdAt, updatedAt) 
+                    VALUES (\"$businessName\", $userID, $businessHoursID, $businessCategoryID, $serviceCategoryID, 
                     '$businessAddress', '$businessEmail', '$businessContact', '', now(), now());");
                 //If successful, will display alert and redirects to log-in page
 

@@ -303,6 +303,14 @@
                                   <tbody class="table-light">
                       ';
                       foreach ($schedules as $block) {
+                        if (!$block["isOpen"]) {
+                          $personAppoint = $pdo->query("SELECT CONCAT(USER.firstName, ' ', USER.middleName, ' ', USER.lastName) AS 'name', SCHEDULE.scheduleID, APPOINTMENT.serviceID FROM SCHEDULE
+                          INNER JOIN APPOINTMENT
+                          ON SCHEDULE.scheduleID = APPOINTMENT.scheduleID AND APPOINTMENT.isActive = 1 AND SCHEDULE.scheduleID = " . $block["scheduleID"] . "
+                            INNER JOIN USER
+                            ON APPOINTMENT.userID = USER.userID;")->fetch();
+                          $service = $pdo->query("SELECT serviceName from SERVICE WHERE serviceID = " . $personAppoint["serviceID"] . ";")->fetch()["serviceName"];
+                        }
                         echo '
                                     <tr>
                                       <td>
@@ -315,7 +323,7 @@
                                             <h5 class="info-box-text font-weight-bold text-uppercase">'
                           . ($block["isOpen"] ? 'Vacant' : 'Taken') .
                           '</h5>
-                                            <h5 class="info-box-text small">None</h5>
+                                            <h5 class="info-box-text small">' . ($block["isOpen"] ? 'None' : $service) . '</h5>
                                           </div>
                                       </td>
                                     </tr>';

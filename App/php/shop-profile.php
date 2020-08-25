@@ -61,9 +61,9 @@
     session_start();
     $userID = $_SESSION["userID"];
 
-    //Refresh on POST
-    if (isset($_POST['Submit']) && ($_POST['Submit'] == "scheduleAppointment")) //Refreshes page somehow
-      echo "<meta http-equiv='refresh' content='0'>";
+    // //Refresh on POST
+    // if (isset($_POST['Submit']) && ($_POST['Submit'] == "scheduleAppointment")) //Refreshes page somehow
+    //   echo "<meta http-equiv='refresh' content='0'>";
   }
   ?>
   <!-- Home Content THE FONT IS IN STYLE.CSS -->
@@ -340,10 +340,10 @@
                       $empServices = $statement->fetchAll();
                       if(!empty($empServices)) $tmpService = $empServices[0]['serviceName'];
                       foreach ($empServices as $row) {
-                        echo '<option value="' . $row['serviceID'];
+                        echo '<option value="' . $row['serviceID'] . '"';
                         if ($tmpService == $row['serviceName'])
                           echo " selected";
-                        echo '">' . $row['serviceName'] . '</option>';
+                        echo '>' . $row['serviceName'] . '</option>';
                       }
                       echo ' </select>
                             </div>
@@ -356,7 +356,8 @@
                       // echo $isTaken . "HI";
                       if (!$isTaken) {
                         try {
-                          $pdo->exec("INSERT INTO APPOINTMENT (userID, scheduleID, date, serviceID, isServing, isDone, isActive, createdAt, updatedAt) VALUES ($userID, $scheduleID, CURDATE(), $serviceID, 0, 0, 1, now(), now());");
+                          $pdo->exec("INSERT INTO APPOINTMENT (userID, scheduleID, date, serviceID, isServing, isDone, isActive, createdAt, updatedAt) 
+                            VALUES ($userID, $scheduleID, CURDATE(), $serviceID, 0, 0, 1, now(), now());");
                           $pdo->exec("UPDATE SCHEDULE SET isOpen = 0 WHERE scheduleID = $scheduleID;");
                         } catch (Exception $e) {
                           echo "Insertion error! $e";

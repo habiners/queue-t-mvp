@@ -416,7 +416,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         $pdo->exec("UPDATE BUSINESS_HOURS SET monday = $monday, tuesday = $tuesday, wednesday = $wednesday, thursday = $thursday, friday = $friday, saturday = $saturday, sunday = $sunday,
                                         businessOpen = '$openingTime', businessClose = '$closingTime', lunchStart = '$lunchStart', lunchEnd = '$lunchEnd', updatedAt = now(), scheduleName = '$daysOpen'
                                         WHERE businessHoursID = $businessHoursID;");
-                                        $pdo->exec("UPDATE BUSINESS SET description = '$businessDescription' WHERE businessID = $businessID");
+                                        $pdo->exec("UPDATE BUSINESS SET description = \"$businessDescription\" WHERE businessID = $businessID");
                                       }
                                       catch(PDOException $e){
                                           echo "Insertion error! Error: " . $e;

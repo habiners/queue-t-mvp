@@ -331,6 +331,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               ON SCHEDULE.scheduleID = APPOINTMENT.scheduleID AND APPOINTMENT.isActive = 1 AND SCHEDULE.scheduleID = " . $schedule["scheduleID"] . "
                                 INNER JOIN USER
                                 ON APPOINTMENT.userID = USER.userID;")->fetch();
+                            $service = $pdo->query("SELECT serviceName from SERVICE WHERE serviceID = " . $personAppoint["serviceID"] . ";")->fetch()["serviceName"];
                           }
                           echo '
                         <td>
@@ -339,10 +340,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="info-box-content hover-effect">
                               <span class="info-box-text font-weight-bold"> ' . $schedule["timeStartFormatted"] . ' to ' . $schedule["timeEnd"] . '</span>
                               </span>
-                              <h3 class="uppercase">
-                              ' . ($schedule["isOpen"] ? 'Vacant' : $personAppoint["name"]) . '
-                              </h3>
-                            </div>
+                              ' . ($schedule["isOpen"] ? '<h3 class="uppercase">Vacant</h3>' : '<span class="progress-description">' . $personAppoint["name"] . '</span>');
+                        if(!$schedule["isOpen"]) echo '<span class="info-box-text">' . $service . '</span>';
+                        echo'</div>
                             <span class="info-box-text small">
                               ' . ($schedule["isOpen"] ? 'open' : 'closed') . '
                             </span>

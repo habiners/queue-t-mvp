@@ -1,19 +1,19 @@
 <?php
-  require_once "pdo-conn.php";
-  session_start();
-  $businessID = $_SESSION["businessID"];
-  $userID = $_SESSION["userID"];
+require_once "pdo-conn.php";
+session_start();
+$businessID = $_SESSION["businessID"];
+$userID = $_SESSION["userID"];
 
-  function inpClean($data)
-  { //Manglimpyo ni siya
-    $data = trim($data); //gets rid of whitespace
-    $data = stripslashes($data); //gets rid of slashes
-    $data = htmlspecialchars($data); //translates html for security
+function inpClean($data)
+{ //Manglimpyo ni siya
+  $data = trim($data); //gets rid of whitespace
+  $data = stripslashes($data); //gets rid of slashes
+  $data = htmlspecialchars($data); //translates html for security
 
-    return $data;
+  return $data;
 }
 if (isset($_POST['Submit']) && $_POST['Submit'] == "addSchedule") //Refreshes page somehow
-echo "<meta http-equiv='refresh' content='0'>";
+  echo "<meta http-equiv='refresh' content='0'>";
 ?>
 <!DOCTYPE html>
 <!--
@@ -339,6 +339,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- Start of Carousel pages -->
                         <?php
                         $first = true;
+                        $counter = array();
+
                         $employess = $pdo->query("SELECT DISTINCT concat(WORKER.firstName, ' ', WORKER.lastName) AS 'workerName', WORKER.workerID FROM BUSINESS
                           INNER JOIN SERVICES_OFFERED
                           ON BUSINESS.businessID = SERVICES_OFFERED.businessID AND BUSINESS.businessID = $businessID
@@ -348,6 +350,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               ON EMPLOYEE.workerID = WORKER.workerID;")->fetchAll();
 
                         foreach ($employess as $carousel) {
+                          $counter += array($carousel["workerName"] => 1);
                           echo '<div class="carousel-item' . ($first ? ' active' : '') . '">';
                           $first = false;
                           echo '  <div class="row justify-content-center mt-2">';
@@ -388,13 +391,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 ON SCHEDULE.scheduleID = APPOINTMENT.scheduleID AND APPOINTMENT.isActive = 1 AND SCHEDULE.scheduleID = " . $schedule["scheduleID"] . "
                                   INNER JOIN USER
                                   ON APPOINTMENT.userID = USER.userID;")->fetch();
+                              $service = $pdo->query("SELECT serviceName from SERVICE WHERE serviceID = " . $personAppoint["serviceID"] . ";")->fetch()["serviceName"];
                             }
 
                             echo '<div class="info-box ' . ($schedule["isOpen"] ? '' : 'bg-done') . ' hover-effect" data-toggle="modal" data-target="#addPhysicalQueue">';
-                            echo '  <span class="info-box-icon hover-effect"></span>';
+                            echo '  <span class="info-box-icon hover-effect">' . ($schedule["isOpen"] ? "" : $counter[$schedule["workerName"]]++) . '</span>';
                             echo '   <div class="info-box-content hover-effect">';
                             echo '    <span class="info-box-text font-weight-bold">' . $schedule["timeStartFormatted"] . '-' . $schedule["timeEnd"] . '</span>';
-                            echo '    <h5 class="uppercase">' . ($schedule["isOpen"] ? 'Vacant' :  $personAppoint["name"]) . '</h5>';
+                            echo ($schedule["isOpen"] ? '<h5 class="uppercase">' . 'Vacant' . '</h5>' : '<span class="progress-description">' . $personAppoint["name"] . '</span>');
+                            if (!$schedule["isOpen"]) echo '<span class="info-box-text">' . $service . '</span>';
                             echo '   </div>';
                             echo '   <span class="info-box-text small">' . ($schedule["isOpen"] ? 'open' : 'closed') . '</span>';
                             echo '</div>';
@@ -416,7 +421,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </a>
                     </div>
                     <!-- carousel end -->
-                    <div class="info-box bg-queue hover-effect" data-toggle="modal" data-target="#myOnQueue">
+                    <!-- <div class="info-box bg-queue hover-effect" data-toggle="modal" data-target="#myOnQueue">
                       <span class="info-box-icon font-weight-bold bg-queue hover-effect">5</span>
 
                       <div class="info-box-content bg-queue hover-effect">
@@ -437,67 +442,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <i class="fas fa-times"></i>
                         </button>
                       </span>
-                      <!-- The RESCHEDULE Modal -->
-                      <div class="modal fade" id="myReschedule">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
 
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                              <h4 class="modal-title font-weight-bold">Reschedule Appointment</h4>
-                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                              <p class="d-flex justify-content-center">Are you sure to RESCHEDULE Javin Tan's Cleaning and Pasta @ 3:20 PM?</p>
-                              <div class="md-form md-outline mb-2">
-                                <label for="reschedule-date">Reschedule Date</label>
-                                <input type="date" class="form-control rounded-pill form-control-lg" placeholder="reschedule-date" required="">
-                              </div>
-                              <div class="md-form md-outline mb-3">
-                                <label for="reschedule-time">Reschedule Time</label>
-                                <input type="time" id="default-picker" class="form-control" placeholder="Select time" required="">
-                              </div>
-
-
-                            </div>
-
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-success mr-5" data-dismiss="modal">Yes</button>
-                              <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
-                            </div>
-
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- CANCEL MODAL -->
-                      <div class="modal fade" id="myCancel">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                              <h4 class="modal-title font-weight-bold">Cancel Appointment</h4>
-                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                              <h5 class="d-flex justify-content-center">Are you sure you want to CANCEL Javin Tan's Cleaning and Pasta Appointment at 3:20 PM?</h5>
-                            </div>
-
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-success mr-5" data-dismiss="modal">Yes</button>
-                              <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    </div> -->
                     <!-- ./Javin End -->
                   </div>
                   <!-- ./card-end -->
@@ -512,7 +458,66 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  <!-- The RESCHEDULE Modal -->
+  <div class="modal fade" id="myReschedule">
+    <div class="modal-dialog">
+      <div class="modal-content">
 
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title font-weight-bold">Reschedule Appointment</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p class="d-flex justify-content-center">Are you sure to RESCHEDULE Javin Tan's Cleaning and Pasta @ 3:20 PM?</p>
+          <div class="md-form md-outline mb-2">
+            <label for="reschedule-date">Reschedule Date</label>
+            <input type="date" class="form-control rounded-pill form-control-lg" placeholder="reschedule-date" required="">
+          </div>
+          <div class="md-form md-outline mb-3">
+            <label for="reschedule-time">Reschedule Time</label>
+            <input type="time" id="default-picker" class="form-control" placeholder="Select time" required="">
+          </div>
+
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success mr-5" data-dismiss="modal">Yes</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CANCEL MODAL -->
+  <div class="modal fade" id="myCancel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title font-weight-bold">Cancel Appointment</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <h5 class="d-flex justify-content-center">Are you sure you want to CANCEL Javin Tan's Cleaning and Pasta Appointment at 3:20 PM?</h5>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success mr-5" data-dismiss="modal">Yes</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Queue Profile -->
   <div class="modal fade" id="myOnQueue">
     <div class="modal-dialog">

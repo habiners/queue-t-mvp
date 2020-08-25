@@ -294,6 +294,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <?php
                   $notDone = true;
                   $serviceRow = 1;
+                  $counter = array();
                   while ($notDone) {
                     $notDone = false;
                     echo "<tr>";
@@ -308,6 +309,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     $workers = $statement->fetchAll();
                     foreach ($workers as $column) {
                       if (!empty($column)) {
+                        $counter += array($column["workerName"] => 1);
                         $row = 0;
                         $statement = $pdo->query("SELECT scheduleID, CONCAT(time_format(timeStart, '%h:%i') , ' ', IF(TIME(timeStart) >= '12:00:00', 'PM', 'AM')) as timeStartFormatted, 
                         CONCAT(time_format(timeEnd, '%h:%i') , ' ', IF(TIME(timeEnd) >= '12:00:00', 'PM', 'AM')) as timeEnd, isOpen, WORKER.workerID, concat(WORKER.firstName, ' ', WORKER.lastName) AS 'workerName' FROM SCHEDULE 
@@ -336,7 +338,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           echo '
                         <td>
                           <div class="info-box' . ($schedule["isOpen"] ? '' : ' bg-done') . ' hover-effect">
-                            <span class="info-box-icon font-weight-bold hover-effect"></span>
+                            <span class="info-box-icon font-weight-bold hover-effect">' . ($schedule["isOpen"] ? "" : $counter[$column["workerName"]]++) .'</span>
                             <div class="info-box-content hover-effect">
                               <span class="info-box-text font-weight-bold"> ' . $schedule["timeStartFormatted"] . ' to ' . $schedule["timeEnd"] . '</span>
                               </span>

@@ -170,7 +170,7 @@ CREATE TABLE EMPLOYEE(
 );
 
 select * from schedule;
-UPDATE SCHEDULE SET date = curdate() where scheduleID = 9;
+#UPDATE SCHEDULE SET date = curdate() where scheduleID = 9;
 #10. Schedule=====================================================================================================================================
 CREATE TABLE SCHEDULE(
 	scheduleID INT PRIMARY KEY AUTO_INCREMENT,
@@ -187,6 +187,10 @@ CREATE TABLE SCHEDULE(
 );
 
 
+use queue_t;
+describe appointment;
+select * from appointment;
+ALTER TABLE APPOINTMENT ADD COLUMN date DATE;
 #11. Appointment=====================================================================================================================================
 CREATE TABLE APPOINTMENT(
 	appointmentID INT PRIMARY KEY AUTO_INCREMENT,
@@ -204,6 +208,7 @@ CREATE TABLE APPOINTMENT(
 		ON DELETE SET NULL 
         ON UPDATE CASCADE,
     
+    date DATE,
 	isServing BOOLEAN, #[note: 'If true, currently being served'],
     isDone BOOLEAN, #[note: 'If false, waiting']
 	isActive BOOLEAN, #[note: 'If false it is cancelled'],

@@ -1,3 +1,9 @@
+<?php
+require_once "pdo-conn.php";
+session_start();
+$businessID = $_SESSION["businessID"];
+$userID = $_SESSION["userID"];
+?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -264,9 +270,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <h5 class="card-title font-weight-bold">Total Appointments: 5/7</h5>
 
                     <div class="card-tools">
-                      <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                      <!-- <button type="button" class="btn btn-tool" data-card-widget="maximize">
                         <i class="fas fa-expand"></i>
-                      </button>
+                      </button> -->
+                      <a href="appointment.php">
+                        <button type="button" class="btn btn-tool">
+                          <i class="fas fa-expand"></i>
+                        </button>
+                      </a>
                       <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
                       </button>
@@ -276,28 +287,57 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="card-body overflow-auto">
                     <!-- Content Start -->
                     <div id="employee" class="row carousel slide pics-size" data-ride="carousel" data-interval="false">
-                      <ul class="carousel-indicators">
-                        <li data-target="#employee" data-slide-to="0" class="active"></li>
-                        <li data-target="#employee" data-slide-to="1"></li>
-                        <li data-target="#employee" data-slide-to="2"></li>
-                      </ul>
                       <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <div class="row justify-content-center mt-2">
-                            <h5>HIF</h5>
-                          </div>
-                          <div class="row justify-content-center mt-2">
-                            <h5>NANI</h5>
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="row justify-content-center mt-2">
-                            <h5>HIT</h5>
-                          </div>
-                          <div class="row justify-content-center mt-2">
-                            <h5>NANI</h5>
-                          </div>
-                        </div>
+                        <!-- Start of Carousel pages -->
+                        <?php
+                        $first = true;
+                        $employess = $pdo->query("SELECT DISTINCT concat(WORKER.firstName, ' ', WORKER.lastName) AS 'workerName', WORKER.workerID FROM BUSINESS
+                          INNER JOIN SERVICES_OFFERED
+                          ON BUSINESS.businessID = SERVICES_OFFERED.businessID AND BUSINESS.businessID = $businessID
+                            INNER JOIN EMPLOYEE
+                            ON EMPLOYEE.serviceOfferedID = SERVICES_OFFERED.serviceOfferedID
+                              INNER JOIN WORKER
+                              ON EMPLOYEE.workerID = WORKER.workerID;")->fetchAll();
+
+                        foreach ($employess as $carousel) {
+                          echo '<div class="carousel-item' . ($first ? ' active' : '') . '">';
+                          $first = false;
+                          echo '  <div class="row justify-content-center mt-2">';
+                          echo '    <h5>' . $carousel["workerName"] . '</h5>';
+                          echo '  </div>';
+
+                          $schedules = $pdo->query("SELECT scheduleID, CONCAT(time_format(timeStart, '%h:%i') , ' ', IF(TIME(timeStart) >= '12:00:00', 'PM', 'AM')) as 'timeStartFormatted', 
+                              CONCAT(time_format(timeEnd, '%h:%i') , ' ', IF(TIME(timeEnd) >= '12:00:00', 'PM', 'AM')) as timeEnd, isOpen, WORKER.workerID, concat(WORKER.firstName, ' ', WORKER.lastName) AS 'workerName' FROM SCHEDULE 
+                                INNER JOIN WORKER
+                                ON SCHEDULE.workerID = WORKER.workerID AND WORKER.workerID = " . $carousel["workerID"] .
+                            " INNER JOIN EMPLOYEE
+                                  ON WORKER.workerID = EMPLOYEE.workerID
+                                    INNER JOIN SERVICES_OFFERED
+                                    ON SERVICES_OFFERED.businessID = $businessID
+                                      GROUP BY timeStart ORDER BY timeStart ASC;")->fetchAll();
+
+                          foreach ($schedules as $schedule) {
+                            if(!$schedule["isOpen"]){
+                              $personAppoint = $pdo->query("SELECT CONCAT(USER.firstName, ' ', USER.middleName, ' ', USER.lastName) AS 'name', SCHEDULE.scheduleID, APPOINTMENT.serviceID FROM SCHEDULE
+                                INNER JOIN APPOINTMENT
+                                ON SCHEDULE.scheduleID = APPOINTMENT.scheduleID AND APPOINTMENT.isActive = 1 AND SCHEDULE.scheduleID = " . $schedule["scheduleID"] . "
+                                  INNER JOIN USER
+                                  ON APPOINTMENT.userID = USER.userID;")->fetch();
+                            }
+  
+                            echo '<div class="info-box ' . ($schedule["isOpen"] ? '' : 'bg-done') . ' hover-effect" data-toggle="modal" data-target="#addPhysicalQueue">';
+                            echo '  <span class="info-box-icon hover-effect"></span>';
+                            echo '   <div class="info-box-content hover-effect">';
+                            echo '    <span class="info-box-text font-weight-bold">' . $schedule["timeStartFormatted"] . '-' . $schedule["timeEnd"] . '</span>';
+                            echo '    <h5 class="uppercase">' . ($schedule["isOpen"] ? 'Vacant' :  $personAppoint["name"]) . '</h5>';
+                            echo '   </div>';
+                            echo '   <span class="info-box-text small">' . ($schedule["isOpen"] ? 'open' : 'closed') . '</span>';
+                            echo '</div>';
+                          }
+                          echo '</div>'; //End of Carousel Div
+                        }
+                        ?>
+                        <!-- End of carousel pages -->
                       </div>
                       <a class="carousel-control carousel-control-prev" href="#employee" data-slide="prev">
                         <button type="button" class="btn btn-arrow hover-effect">
@@ -310,108 +350,94 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </button>
                       </a>
                     </div>
+                    <!-- carousel end -->
+                    <div class="info-box bg-queue hover-effect" data-toggle="modal" data-target="#myOnQueue">
+                      <span class="info-box-icon font-weight-bold bg-queue hover-effect">5</span>
 
-                  </div>
-                  <div class="info-box" data-toggle="modal" data-target="#addPhysicalQueue">
-                    <span class="info-box-icon hover-effect"></span>
-                    <div class="info-box-content hover-effect">
-                      <span class="info-box-text font-weight-bold">5:10-5:30 PM</span>
-                      <h5 class="uppercase">
-                        Vacant
-                      </h5>
-                    </div>
-                    <span class="info-box-text small">
-                      open
-                    </span>
-                  </div>
-
-                  <div class="info-box bg-queue hover-effect" data-toggle="modal" data-target="#myOnQueue">
-                    <span class="info-box-icon font-weight-bold bg-queue hover-effect">5</span>
-
-                    <div class="info-box-content bg-queue hover-effect">
-                      <span class="info-box-text font-weight-bold">5:30-6:30 PM</span>
+                      <div class="info-box-content bg-queue hover-effect">
+                        <span class="info-box-text font-weight-bold">5:30-6:30 PM</span>
+                        </span>
+                        <span class="progress-description">
+                          Javin Tan
+                        </span>
+                        <span class="info-box-text">Cleaning & Pasta</span>
+                      </div>
+                      <span class="info-box-icon">
+                        <button type="button bg-queue" class="btn btn-reschedule" data-toggle="modal" data-target="#myReschedule">
+                          <i class="fas fa-calendar-plus"></i>
+                        </button>
                       </span>
-                      <span class="progress-description">
-                        Javin Tan
+                      <span class="info-box-icon">
+                        <button type="button bg-queue" class="btn btn-remove" data-toggle="modal" data-target="#myCancel">
+                          <i class="fas fa-times"></i>
+                        </button>
                       </span>
-                      <span class="info-box-text">Cleaning & Pasta</span>
-                    </div>
-                    <span class="info-box-icon">
-                      <button type="button bg-queue" class="btn btn-reschedule" data-toggle="modal" data-target="#myReschedule">
-                        <i class="fas fa-calendar-plus"></i>
-                      </button>
-                    </span>
-                    <span class="info-box-icon">
-                      <button type="button bg-queue" class="btn btn-remove" data-toggle="modal" data-target="#myCancel">
-                        <i class="fas fa-times"></i>
-                      </button>
-                    </span>
-                    <!-- The RESCHEDULE Modal -->
-                    <div class="modal fade" id="myReschedule">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
+                      <!-- The RESCHEDULE Modal -->
+                      <div class="modal fade" id="myReschedule">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
 
-                          <!-- Modal Header -->
-                          <div class="modal-header">
-                            <h4 class="modal-title font-weight-bold">Reschedule Appointment</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          </div>
-
-                          <!-- Modal body -->
-                          <div class="modal-body">
-                            <p class="d-flex justify-content-center">Are you sure to RESCHEDULE Javin Tan's Cleaning and Pasta @ 3:20 PM?</p>
-                            <div class="md-form md-outline mb-2">
-                              <label for="reschedule-date">Reschedule Date</label>
-                              <input type="date" class="form-control rounded-pill form-control-lg" placeholder="reschedule-date" required="">
-                            </div>
-                            <div class="md-form md-outline mb-3">
-                              <label for="reschedule-time">Reschedule Time</label>
-                              <input type="time" id="default-picker" class="form-control" placeholder="Select time" required="">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                              <h4 class="modal-title font-weight-bold">Reschedule Appointment</h4>
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
 
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                              <p class="d-flex justify-content-center">Are you sure to RESCHEDULE Javin Tan's Cleaning and Pasta @ 3:20 PM?</p>
+                              <div class="md-form md-outline mb-2">
+                                <label for="reschedule-date">Reschedule Date</label>
+                                <input type="date" class="form-control rounded-pill form-control-lg" placeholder="reschedule-date" required="">
+                              </div>
+                              <div class="md-form md-outline mb-3">
+                                <label for="reschedule-time">Reschedule Time</label>
+                                <input type="time" id="default-picker" class="form-control" placeholder="Select time" required="">
+                              </div>
+
+
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-success mr-5" data-dismiss="modal">Yes</button>
+                              <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                            </div>
 
                           </div>
-
-                          <!-- Modal footer -->
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-success mr-5" data-dismiss="modal">Yes</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
-                          </div>
-
                         </div>
                       </div>
-                    </div>
 
-                    <!-- CANCEL MODAL -->
-                    <div class="modal fade" id="myCancel">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
+                      <!-- CANCEL MODAL -->
+                      <div class="modal fade" id="myCancel">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
 
-                          <!-- Modal Header -->
-                          <div class="modal-header">
-                            <h4 class="modal-title font-weight-bold">Cancel Appointment</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          </div>
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                              <h4 class="modal-title font-weight-bold">Cancel Appointment</h4>
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
 
-                          <!-- Modal body -->
-                          <div class="modal-body">
-                            <h5 class="d-flex justify-content-center">Are you sure you want to CANCEL Javin Tan's Cleaning and Pasta Appointment at 3:20 PM?</h5>
-                          </div>
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                              <h5 class="d-flex justify-content-center">Are you sure you want to CANCEL Javin Tan's Cleaning and Pasta Appointment at 3:20 PM?</h5>
+                            </div>
 
-                          <!-- Modal footer -->
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-success mr-5" data-dismiss="modal">Yes</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-success mr-5" data-dismiss="modal">Yes</button>
+                              <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                    <!-- ./Javin End -->
                   </div>
-                  <!-- ./Javin End -->
-                </div>
-                <!-- ./card-end -->
+                  <!-- ./card-end -->
 
-              </div> <!-- ./container-end -->
+                </div> <!-- ./container-end -->
             </section>
           </div>
         </div>

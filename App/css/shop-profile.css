@@ -168,6 +168,12 @@ a:hover {
     background-color: #551FBD;
     color: white;
 }
+
+.bg-done {
+    background-color:  #473d63;
+    color:whitesmoke;
+}
+
 .btn-arrow {
     color: #723dbe;
 }

@@ -306,7 +306,7 @@
                         echo '
                                     <tr>
                                       <td>
-                                       <div class="row ml-1 info-box hover-effect">
+                                       <div class="row ml-1 info-box ' . ($block["isOpen"] ? '' : 'bg-done') . ' hover-effect">
                                          <span class="info-box-icon font-weight-bold  hover-effect">'
                           . ($block["isOpen"] ? '<input type="radio" name="appointment" value="' . $block["scheduleID"] . '"/>' : '') .
                           '</span>
@@ -356,7 +356,7 @@
                       // echo $isTaken . "HI";
                       if (!$isTaken) {
                         try {
-                          $pdo->exec("INSERT INTO APPOINTMENT (userID, scheduleID, serviceID, isServing, isDone, isActive, createdAt, updatedAt) VALUES ($userID, $scheduleID, $serviceID, 0, 0, 1, now(), now());");
+                          $pdo->exec("INSERT INTO APPOINTMENT (userID, scheduleID, date, serviceID, isServing, isDone, isActive, createdAt, updatedAt) VALUES ($userID, $scheduleID, CURDATE(), $serviceID, 0, 0, 1, now(), now());");
                           $pdo->exec("UPDATE SCHEDULE SET isOpen = 0 WHERE scheduleID = $scheduleID;");
                         } catch (Exception $e) {
                           echo "Insertion error! $e";
@@ -369,17 +369,18 @@
                   </div>
                   <a class="carousel-control carousel-control-prev" href="#employee" data-slide="prev">
                     <span class="carousel-control-prev-icon-color"></span>
+                    <!-- <button type="button" class="btn btn-arrow hover-effect">
+                      <i class="mr-4 fas fa-angle-left fa-2x"></i>
+                    </button> -->
                   </a>
                   <a class="carousel-control carousel-control-next" href="#employee" data-slide="next">
                     <span class="carousel-control-next-icon-color"></span>
+                    <!-- <button type="button" class="btn btn-arrow hover-effect">
+                      <i class="mr-4 fas fa-angle-right fa-2x"></i>
+                    </button> -->
                   </a>
-                  <button type="button" class="btn btn-arrow hover-effect">
-                    <i class="mr-4 fas fa-angle-left fa-2x"></i>
-                  </button>
-                  <button type="button" class="btn btn-arrow hover-effect">
-                    <i class="mr-4 fas fa-angle-right fa-2x"></i>
-                  </button>
                 </div>
+                <br>
                 <div class="row justify-content-center">
                   <button type="Submit" class="btn btn-primary" name="Submit" value="scheduleAppointment">
                     Schedule Appointment
